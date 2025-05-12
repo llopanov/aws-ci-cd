@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SNS publisher triggered by SQS
+
+Parameters:
+  UploadsQueue:
+    Type: String
+    Description: existing queue
+
+Resources:
+  SqsToSnsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/app.handler
+      Runtime: nodejs22.x
+      Timeout: 10
+      CodeUri: .
+      # Policies:
+      #   - SNSPublishMessagePolicy:
+      #       TopicName: sns-UploadsNotificationTopic
+      #   - SQSPollerPolicy:
+      #       QueueName: sqs-UploadsNotificationQueue
+      Policies:
+        - AWSLambda_FullAccess
+        - AWSLambdaSQSQueueExecutionRole
+        - AmazonSNSFullAccess
+        - AmazonSQSFullAccess
+      Events:
+        SQSTrigger:
+          Type: SQS
+          Properties:
+            Queue: !Ref UploadsQueue
+            BatchSize: 10
+
+  # UploadsQueue:
+  #   Type: AWS::SQS::Queue
+  #   Properties:
+  #     QueueName: sqs-UploadsNotificationQueue
+
+  # NotificationTopic:
+  #   Type: AWS::SNS::Topic
+  #   Properties:
+  #     TopicName: sns-UploadsNotificationTopic
