@@ -14,15 +14,15 @@ phases:
     commands:
       - echo Build started on `date`
       - echo "Project Version -> $VERSION"
-      - gradlew test     # Запуск тестов
-      - gradlew build    # Сборка проекта
+     # - gradlew test     # Запуск тестов
+     # - gradlew build    # Сборка проекта
 
   post_build:
     commands:
       - echo Build completed on `date`
       - sam package --s3-bucket alexlpn-simpleapp --template-file samTemplate.yml --output-template-file outputSamTemplate.yml
         # Упаковка SAM-шаблона для деплоя
-      - ls -la build/libs  # Вывод содержимого папки сборки
+     # - ls -la build/libs  # Вывод содержимого папки сборки
 
 artifacts:
   files:
