@@ -14,8 +14,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo "Project Version -> $VERSION"
-      - gradle test     # Запуск тестов
-      - gradle build    # Сборка проекта
+      - gradlew test     # Запуск тестов
+      - gradlew build    # Сборка проекта
 
   post_build:
     commands:
